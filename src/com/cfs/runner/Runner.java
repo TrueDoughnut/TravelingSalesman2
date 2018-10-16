@@ -5,27 +5,22 @@ public class Runner implements Runnable {
     private int[][] positions;
     private Node[] nodes;
     private boolean[] visited;
-    private int startX, startY;
+    private Node start;
 
     public Runner(int[][] positions, int startX, int startY){
         this.positions = positions;
         nodes = new Node[positions.length];
         int i = 0;
         for(int[] arr : positions){
-            nodes[i++] = new Node(positions, arr[0], arr[1]);
+            nodes[i] = new Node(positions, arr[0], arr[1]);
+            if(arr[0] == startX && arr[1] == startY){
+                start = nodes[i];
+            }
+            i++;
         }
         visited = new boolean[nodes.length];
-        this.startX = startX;
-        this.startY = startY;
 
-        boolean exists = false;
-        for(int[] arr : positions){
-            if(arr[0] == startX && arr[1] == startY){
-                exists = true;
-                break;
-            }
-        }
-        if(!exists){
+        if(start == null){
             System.err.println("Invalid input");
             System.exit(15);
         }
@@ -38,11 +33,18 @@ public class Runner implements Runnable {
         return visited;
     }
 
-
-
     @Override
     public void run() {
 
+    }
+
+    private boolean allVisited(){
+        for(boolean x : visited){
+            if(!x){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
