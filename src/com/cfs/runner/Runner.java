@@ -1,17 +1,15 @@
 package com.cfs.runner;
 
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
+import java.util.*;
 
 public class Runner implements Runnable {
 
-    private int[][] positions;
     private Node[] nodes;
     private boolean[] visited;
+    private double min = Double.MAX_VALUE;
+    private Route best;
 
     public Runner(int[][] positions, int startX, int startY){
-        this.positions = positions;
         nodes = new Node[positions.length];
         int i = 0;
         for(int[] arr : positions){
@@ -39,15 +37,14 @@ public class Runner implements Runnable {
     @SuppressWarnings("MismatchedReadAndWriteOfArray")
     @Override
     public void run() {
-        Queue<Route> routes = new SynchronousQueue<>();
+        Queue<Route> routes = new LinkedList<>();
         for(int i = 1; i < nodes.length; i++){
-
             Node[] nodes = new Node[this.nodes.length-1];
             System.arraycopy(this.nodes, 1, nodes, 0, nodes.length);
-
             Permutations<Node> permutations = new Permutations<>(nodes);
+
             while(permutations.hasNext()){
-                Node[] route = new Node[nodes.length+1];
+                Node[] route = new Node[this.nodes.length+1];
                 route[0] = this.nodes[0];
                 route[route.length-1] = this.nodes[0];
                 int j = 1;
@@ -58,42 +55,39 @@ public class Runner implements Runnable {
             }
         }
 
-        ArrayList<Double> vals = new ArrayList<>();
+        Map<Route, Double> map = new HashMap<>();
         Route[] threads = new Route[20];
-        for(Thread thread : threads){
-            thread = routes.remove();
-            thread.start();
+        for(Route thread : threads){
+            thread = routes.poll();
+            if(thread != null) {
+                thread.start();
+            }
         }
-
         while(!routes.isEmpty()){
             for(Route route : threads){
-                if(!route.isAlive()){
-                    vals.add(route.getTotal());
-                    route = routes.remove();
-                    route.start();
+                if(route != null) {
+                    if (!route.isAlive()){
+                        map.put(route, route.getTotal());
+                        route = routes.poll();
+                        if (route != null) {
+                            route.start();
+                        }
+                    }
                 }
             }
         }
 
-        double max = 0;
-        for(Double x : vals){
-            if(x > max){
-                max = x;
+        for(Route route : map.keySet()){
+            System.out.println(map.get(route));
+            if(map.get(route) < min){
+                min = map.get(route);
+                best = route;
             }
         }
-
-        System.out.println(max);
     }
 
     @Override
     public String toString(){
-        StringBuilder str = new StringBuilder();
-        for(int[] arr : positions){
-            for(int x : arr){
-                str.append(x).append(" ");
-            }
-            str.append("\n");
-        }
-        return str.toString();
+        return min + "\n" + best;
     }
 }

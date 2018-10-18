@@ -13,7 +13,7 @@ class Route extends Thread {
     @Override
     public void run(){
         for(int i = 0; i < route.length - 1; i++){
-            total += route[i].distanceTo(route[i+1].getXPos(), route[i+1].getYPos());
+            total += route[i].distanceTo(route[i+1]);
         }
     }
 
@@ -23,5 +23,14 @@ class Route extends Thread {
 
     double getTotal(){
         return total;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        for(Node node : route){
+            builder.append(node.toString());
+        }
+        return builder.toString();
     }
 }
