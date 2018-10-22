@@ -1,27 +1,36 @@
-package com.cfs.runner;
+package com.cfs.helper;
 
-class Route extends Thread {
+import com.cfs.runner.Runner;
+
+public class Route extends Thread {
 
     private Node[] route;
     private double total;
 
-    Route(Node[] route){
+    public Route(Node[] route){
         this.route = route;
         total = 0;
     }
 
     @Override
     public void run(){
-        for(int i = 0; i < route.length - 1; i++){
-            total += route[i].distanceTo(route[i+1]);
-        }
+        total = calcTotal();
+        Runner.map.put(this, total);
     }
 
     Node[] getRoute(){
         return route;
     }
 
-    double getTotal(){
+    public double getTotal(){
+        return calcTotal();
+    }
+
+    private double calcTotal(){
+        double total = 0.0;
+        for(int i = 0; i < route.length - 1; i++){
+            total += route[i].distanceTo(route[i+1]);
+        }
         return total;
     }
 

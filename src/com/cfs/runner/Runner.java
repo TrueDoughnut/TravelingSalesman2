@@ -1,13 +1,17 @@
 package com.cfs.runner;
 
+import com.cfs.helper.Node;
+import com.cfs.helper.Route;
+
 import java.util.*;
 
 public class Runner implements Runnable {
 
     private Node[] nodes;
-    private boolean[] visited;
     private double min = Double.MAX_VALUE;
     private Route best;
+
+    public volatile static HashMap<Route, Double> map;
 
     public Runner(int[][] positions, int startX, int startY){
         nodes = new Node[positions.length];
@@ -21,7 +25,7 @@ public class Runner implements Runnable {
             }
             i++;
         }
-        visited = new boolean[nodes.length];
+        map = new HashMap<>();
     }
     public Runner(int[][] positions){
         this(positions, positions[0][0], positions[0][1]);
@@ -29,9 +33,6 @@ public class Runner implements Runnable {
 
     Node[] getNodes(){
         return nodes;
-    }
-    boolean[] getVisited(){
-        return visited;
     }
 
     @SuppressWarnings("MismatchedReadAndWriteOfArray")
@@ -55,30 +56,11 @@ public class Runner implements Runnable {
             }
         }
 
-        Map<Route, Double> map = new HashMap<>();
-        Route[] threads = new Route[20];
-        for(Route thread : threads){
-            thread = routes.poll();
-            if(thread != null) {
-                thread.start();
-            }
-        }
-        while(!routes.isEmpty()){
-            for(Route route : threads){
-                if(route != null) {
-                    if (!route.isAlive()){
-                        map.put(route, route.getTotal());
-                        route = routes.poll();
-                        if (route != null) {
-                            route.start();
-                        }
-                    }
-                }
-            }
+        for(Route route : routes){
+            map.put(route, route.getTotal());
         }
 
         for(Route route : map.keySet()){
-            System.out.println(map.get(route));
             if(map.get(route) < min){
                 min = map.get(route);
                 best = route;

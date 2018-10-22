@@ -1,10 +1,10 @@
-package com.cfs.runner;
+package com.cfs.helper;
 
-class Node {
+public class Node {
 
     private int xPos, yPos;
 
-    Node(int xPos, int yPos){
+    public Node(int xPos, int yPos){
         this.xPos = xPos;
         this.yPos = yPos;
     }

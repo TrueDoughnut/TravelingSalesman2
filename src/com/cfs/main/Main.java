@@ -15,7 +15,7 @@ public class Main {
     private static int startX, startY;
     private static int[][] run(){
         Random random = new Random();
-        int[][] matrix = new int[3][2];
+        int[][] matrix = new int[6][2];
         for(int i = 0; i < matrix.length; i++) {
             int[] arr = new int[2];
             arr[0] = random.nextInt(200) - 100;
