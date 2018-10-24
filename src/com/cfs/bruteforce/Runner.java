@@ -1,4 +1,4 @@
-package com.cfs.runner;
+package com.cfs.bruteforce;
 
 import com.cfs.helper.Node;
 import com.cfs.helper.Route;

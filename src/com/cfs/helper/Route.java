@@ -1,6 +1,6 @@
 package com.cfs.helper;
 
-import com.cfs.runner.Runner;
+import com.cfs.bruteforce.Runner;
 
 public class Route extends Thread {
 

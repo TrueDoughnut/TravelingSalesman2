@@ -1,13 +1,13 @@
 package com.cfs.main;
 
-import com.cfs.runner.Runner;
+import com.cfs.geometric.Runner;
 
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args){
-        Runner runner = new Runner(run(), startX, startY);
+        Runner runner = new Runner(run());
         runner.run();
         System.out.println(runner);
     }
