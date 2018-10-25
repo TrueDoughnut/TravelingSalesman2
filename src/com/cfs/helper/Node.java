@@ -17,15 +17,24 @@ public class Node {
     }
 
 
-    int getXPos(){
+    public int getXPos(){
         return xPos;
     }
-    int getYPos(){
+    public int getYPos(){
         return yPos;
     }
 
     @Override
     public String toString(){
         return "(" + xPos + ", " + yPos + ")";
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Node){
+            Node x = (Node)o;
+            return x.getXPos() == this.getXPos() && x.getYPos() == this.getYPos();
+        }
+        return super.equals(o);
     }
 }
