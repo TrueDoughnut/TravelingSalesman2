@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 public class BruteForce {
 
@@ -22,9 +21,8 @@ public class BruteForce {
             }
         }
 
-        Iterator<Node[]> iterator = hulls.iterator();
-        while(iterator.hasNext()){
-            Node[] arr = iterator.next();
+        ArrayList<Node> not = new ArrayList<>();
+        for (Node[] arr : hulls) {
             int[] xPoints, yPoints;
             xPoints = new int[]{arr[0].getXPos(), arr[1].getXPos(), arr[2].getXPos()};
             yPoints = new int[]{arr[0].getYPos(), arr[1].getYPos(), arr[2].getYPos()};
@@ -37,25 +35,28 @@ public class BruteForce {
                         continue loop;
                     }
                 }
-                if(polygon.contains(new Point2D.Double(node.getXPos(), node.getYPos()))){
-                    iterator = remove(iterator, node);
+                if(polygon.contains(new Point2D.Double(node.getXPos(), node.getYPos()))) {
+                    not.add(node);
                 }
             }
         }
+        ArrayList<Node> hull = new ArrayList<>();
+        for(Node node : possible){
+            if(!contains(not, node)){
+                hull.add(node);
+            }
+        }
 
-        return nodes;
+        return hull;
     }
 
-    private static Iterator<Node[]> remove(Iterator<Node[]> old, Node node){
-        while(old.hasNext()){
-            Node[] arr = old.next();
-            for(Node x : arr){
-                if(x.equals(node)){
-                    old.remove();
-                }
+    private static boolean contains(ArrayList<Node> arr, Node node){
+        for(Node x : arr){
+            if(x.equals(node)){
+                return true;
             }
         }
-        return old;
+        return false;
     }
 
     public static ArrayList<Node> constructHull(Node[] nodes){

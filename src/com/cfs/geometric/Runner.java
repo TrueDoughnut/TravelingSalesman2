@@ -1,6 +1,6 @@
 package com.cfs.geometric;
 
-import com.cfs.geometric.hull.BruteForce;
+import com.cfs.geometric.hull.QuickHull;
 import com.cfs.helper.Node;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Runner {
     public Runner(int[][] positions){
         this.constructNodes(positions);
         this.constructEdges();
-        hull = BruteForce.constructHull(nodes);
+        hull = QuickHull.constructHull((ArrayList<Node>)Arrays.asList(nodes));
 
         path = new Node[nodes.length];
     }
@@ -42,6 +42,10 @@ public class Runner {
 
     public void run(){
 
+    }
+
+    private double calcAngle(int a, int b, int c){
+        return Math.toDegrees(Math.acos((double)(c * c - a * a - b * b) / (2 * a * b)));
     }
 
     @Override
