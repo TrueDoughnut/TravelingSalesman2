@@ -1,18 +1,19 @@
 package com.cfs.main;
 
-import com.cfs.geometric.Runner;
-
 import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args){
-        Runner runner = new Runner(run());
-        runner.run();
-        System.out.println(runner);
+        int[][] matrix = run();
+        com.cfs.geometric.Runner runner1 = new com.cfs.geometric.Runner(matrix);
+        runner1.run();
+        System.out.println(runner1);
+        com.cfs.bruteforce.Runner runner2 = new com.cfs.bruteforce.Runner(matrix);
+        runner2.run();
+        System.out.println(runner2);
     }
 
-    private static int startX, startY;
     private static int[][] run(){
         Random random = new Random();
         int[][] matrix = new int[6][2];
@@ -22,8 +23,6 @@ public class Main {
             arr[1] = random.nextInt(200) - 100;
             matrix[i] = arr;
         }
-        startX = matrix[matrix.length/2][0];
-        startY = matrix[matrix.length/2][1];
         return matrix;
     }
 }

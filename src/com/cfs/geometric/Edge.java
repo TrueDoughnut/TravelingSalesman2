@@ -25,6 +25,6 @@ class Edge {
 
     @Override
     public String toString(){
-        return "" + this.weight;
+        return this.start.toString() + "->" + this.end.toString();
     }
 }
