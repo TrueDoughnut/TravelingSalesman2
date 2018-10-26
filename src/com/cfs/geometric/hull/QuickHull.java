@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class QuickHull {
 
     private static ArrayList<Point> quickHull(ArrayList<Point> points){
-        ArrayList<Point> convexHull = new ArrayList<Point>();
+        ArrayList<Point> convexHull = new ArrayList<>();
         if (points.size() < 3)
             return (ArrayList<Point>) points.clone();
 
