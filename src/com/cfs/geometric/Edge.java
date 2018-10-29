@@ -27,4 +27,13 @@ class Edge {
     public String toString(){
         return this.start.toString() + "->" + this.end.toString();
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Edge){
+            Edge edge = (Edge)o;
+            return edge.getStart().equals(this.getStart()) && edge.getEnd().equals(this.getEnd());
+        }
+        return false;
+    }
 }
